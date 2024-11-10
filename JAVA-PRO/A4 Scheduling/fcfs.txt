@@ -1,0 +1,166 @@
+import java.util.Scanner;
+
+class Process {
+    String pname;
+    float AT, BT, WT, ST, FT, TAT;
+                                                                            //array of objects
+    Process(String mpname, float mAT, float mBT) {
+        pname = mpname;
+        AT = mAT;
+        BT = mBT;
+
+    }
+}
+
+public class Fcfs 
+{
+
+    public static void main(String[] args) throws Exception
+    {
+        String namee="";
+        float att,btt;
+        
+        Process p[] = new Process[10];
+        Process temp;
+
+        System.out.println("enter number of elements");
+        
+        // System.out.println("enter the qs and values ");
+        Scanner s = new Scanner(System.in);
+        int n=s.nextInt();
+
+        for (int i = 0; i < n; i++)
+        {
+            
+                
+                namee="t"+(i+1);
+                System.out.println(namee);
+                System.out.println("Enter AT");
+                att=s.nextFloat();
+                System.out.println("Enter BT");
+                btt=s.nextFloat();
+                
+             p[i]=new Process(namee, att, btt);        //input
+        }
+        
+        
+        System.out.println("\nTASKS\tArrTime\tBurst");
+        for (int i = 0; i <n; i++) {
+            System.out.println(p[i].pname+"\t"+p[i].AT+"\t"+p[i].BT);        //display
+        }
+        
+    
+                                        
+        for(int i=0;i<n;i++)                //sorting method bubble sort 
+        {
+            for (int j = 0; j <(n-i-1); j++) 
+            {
+                if(p[j].AT>p[j+1].AT)
+                {
+                    temp=p[j];
+                    p[j]=p[j+1];
+                    p[j+1]=temp;
+                }//if
+                
+            }//for
+        
+        }//for
+        
+        System.out.println("-----Question-----");
+        
+        
+        System.out.println("\nTASKS\tArrTime\tBurst");
+        for (int i = 0; i <n; i++) {
+            System.out.println(p[i].pname+"\t"+p[i].AT+"\t"+p[i].BT);
+        }
+        
+        
+        
+        System.out.println("solving....");
+        p[0].ST=p[0].AT;
+        System.out.println("\nTASKS\tArrTime\tBurst\twt\ttat\tft");
+        for(int i=0;i<n;i++)
+        {
+            p[i].WT=(p[i].ST)-(p[i].WT);
+            p[i].FT=(p[i].ST)+(p[i].BT);
+            p[i].TAT=(p[i].WT)+(p[i].BT);
+            if(i+1<n)                            
+            p[i+1].ST=p[i].FT;
+            
+            
+            System.out.println(p[i].pname+"\t"+p[i].AT+"\t"+p[i].BT+"\t"+p[i].WT+"\t"+p[i].TAT+"\t"+p[i].FT);
+        }
+        
+        System.out.println("GANT CHART");
+        System.out.print("|");
+        for (int i = 0; i<n; i++) {
+            System.out.print(p[i].pname+"("+p[i].ST+")|");
+        }
+        
+//        System.out.println("\nTASKS\tArrTime\tBurst\twt\ttat\tft");
+//        for (int i = 0; i <n; i++) {
+//            System.out.println(p[i].pname+"\t"+p[i].AT+"\t"+p[i].BT+"\t"+p[i].WT+"\t"+p[i].TAT+"\t"+p[i].FT);
+//        }
+//        
+        
+    }
+
+}
+
+
+/*
+ * 
+ *enter number of elements
+5
+t1
+Enter AT
+1
+Enter BT
+3
+t2
+Enter AT
+2
+Enter BT
+5
+t3
+Enter AT
+4
+Enter BT
+6
+t4
+Enter AT
+3
+Enter BT
+4
+t5
+Enter AT
+0
+Enter BT
+2
+
+TASKS    ArrTime    Burst
+t1    1.0    3.0
+t2    2.0    5.0
+t3    4.0    6.0
+t4    3.0    4.0
+t5    0.0    2.0
+-----Question-----
+
+TASKS    ArrTime    Burst
+t5    0.0    2.0
+t1    1.0    3.0
+t2    2.0    5.0
+t4    3.0    4.0
+t3    4.0    6.0
+solving....
+
+TASKS    ArrTime    Burst    wt    tat    ft
+t5        0.0        2.0        0.0    2.0     2.0
+t1    1.0    3.0    2.0    5.0    5.0
+t2    2.0    5.0    5.0    10.0    10.0
+t4    3.0    4.0    10.0    14.0    14.0
+t3    4.0    6.0    14.0    20.0    20.0
+GANT CHART
+|t5(0.0)|t1(2.0)|t2(5.0)|t4(10.0)|t3(14.0)|
+
+ * */
